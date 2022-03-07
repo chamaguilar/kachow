@@ -69,7 +69,7 @@ BNO055I2CNode::BNO055I2CNode(int argc, char* argv[]) {
     nh_priv->param("device", param_device, (std::string)"/dev/i2c-1");
     nh_priv->param("address", param_address, (int)BNO055_ADDRESS_A);
     nh_priv->param("frame_id", param_frame_id, (std::string)"imu");
-    nh_priv->param("rate", param_rate, (double)100);
+    nh_priv->param("rate", param_rate, (double)30);
  
     imu = std::make_unique<imu_bno055::BNO055I2CDriver>(param_device, param_address);
 

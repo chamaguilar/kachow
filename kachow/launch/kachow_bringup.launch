@@ -1,8 +1,9 @@
 ﻿<launch>
 
-<node pkg="tf" type="static_transform_publisher" name="base_link_to_sonar" args="0.10 0 0 0 0 0 base_link ultrasound 30" />
-<node pkg="tf" type="static_transform_publisher" name="imu_broadcaster" args="0 0.10 0 0 0 0 base_link imu 30" />
-<node pkg="tf" type="static_transform_publisher" name="base_link_broadcaster" args="0 0 0.10 0 0 0 base_footprint base_link 30" />
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_sonar" args="0.12 0 0 0 0 0 base_link ultrasound 30" />
+<node pkg="tf" type="static_transform_publisher" name="imu_broadcaster" args="0.10 0.13 0 0 0 0 base_link imu 30" />
+<node pkg="tf" type="static_transform_publisher" name="base_link_broadcaster" args="0 0 0.15 0 0 0 base_footprint base_link 30" />
+<node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 map odom 30" />
 
 <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
   <param name="port" value="/dev/ttyUSB0" />
@@ -33,14 +34,14 @@
   <param name="self_diagnose" value="false" />
 </node>
 
-<node pkg="rviz" type="rviz" name="rviz">
-</node> 
+<node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_mapping.rviz">
+</node>
  
 <node pkg="localization_data_pub" type="rviz_click_to_2d" name="rviz_click_to_2d">
 </node> 
 
 <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
-  <param name="speed" value="0.3" />
+  <param name="speed" value="0.25" />
 </node>
 
 </launch>

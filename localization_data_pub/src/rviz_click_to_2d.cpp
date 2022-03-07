@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
   pub2 = node.advertise<geometry_msgs::PoseStamped>("initial_2d", 0);
   ros::Subscriber sub = node.subscribe("move_base_simple/goal", 0, handle_goal);
   ros::Subscriber sub2 = node.subscribe("initialpose", 0, handle_initial_pose);
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(30);
   while (ros::ok()) {
         ros::spinOnce();
         loop_rate.sleep();
