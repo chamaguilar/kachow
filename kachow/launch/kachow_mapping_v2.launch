@@ -1,23 +1,4 @@
 ﻿<launch>
-
-<node pkg="tf" type="static_transform_publisher" name="base_link_to_sonar" args="0.12 0 0 0 0 0 base_link ultrasound 30" />
-<node pkg="tf" type="static_transform_publisher" name="imu_broadcaster" args="0.10 0.13 0 0 0 0 base_link imu 30" />
-<!--node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 map odom 30" /-->
-
-<node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
-  <param name="port" value="/dev/ttyUSB0" />
-  <param name="baud" value="115200" />
-</node>
-
-<node pkg="localization_data_pub" type="ekf_odom_pub" name="ekf_odom_pub">
-</node> 
-
-<node ns="imu" name="imu_node" pkg="imu_bno055" type="bno055_i2c_node" respawn="true" respawn_delay="2">
-  <param name="device" type="string" value="/dev/i2c-1" />
-  <param name="address" type="int" value="40" />
-  <param name="frame_id" type="string" value="imu" />
-</node>
-
 <remap from="odom" to="odom_data_quat" />
 <remap from="imu_data" to="imu/data" />
 <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
@@ -27,7 +8,7 @@
 
   <param name="map_frame" value="map" />
   <param name="odom_frame" value="odom" />
-  <param name="base_link_frame" value="base_link" />
+  <param name="base_link_frame" value="base_footprint" />
   <param name="world_frame" value="odom" />
   
   <param name="transform_time_offset" value="0.0" />
@@ -36,16 +17,16 @@
   <param name="odom0" value="odom_data_quat" />
   <param name="imu0" value="imu/data" /> 
 
-  <rosparam param="odom0_config">[true,  true,  false, 
-                                  false, false, false, 
-                                  false, false, false, 
+  <rosparam param="odom0_config">[false, false, false,
                                   false, false, false,
+                                  true, true, false,
+                                  false, false, true,
                                   false, false, false]</rosparam>
 
-  <rosparam param="imu0_config">[false, false, false, 
-                                 true,  true,  true, 
-                                 false, false, false, 
-                                 true,  true,  true,
+  <rosparam param="imu0_config">[false, false, false,
+                                 false, false, false,
+                                 false, false, false,
+                                 false, false, true,
                                  false, false, false]</rosparam>
 
   <param name="odom0_differential" value="false" />
@@ -95,14 +76,36 @@
 
 </node>
 
-<node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_mapping.rviz">
-</node>
- 
-<node pkg="localization_data_pub" type="rviz_click_to_2d" name="rviz_click_to_2d">
-</node> 
-
-<node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
-  <param name="speed" value="0.25" />
-</node>
-
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <rosparam>
+      base_frame: base_link
+      odom_frame: odom
+      map_update_interval: 0.3
+      maxUrange: 0.8
+      maxRange: 0.8
+      sigma: 0.05
+      kernelSize: 1
+      lstep: 0.05
+      astep: 0.05
+      iterations: 5
+      lsigma: 0.075
+      ogain: 3.0
+      lskip: 0
+      minimumScore: 600
+      linearUpdate: 0.05
+      angularUpdate: 0.0436
+      temporalUpdate: -1.0
+      resampleThreshold: 0.5
+      particles: 80
+      xmin: -1.0
+      ymin: -1.0
+      xmax: 1.0
+      ymax: 1.0
+      delta: 0.025
+      llsamplerange: 0.01
+      llsamplestep: 0.01
+      lasamplerange: 0.005
+      lasamplestep: 0.005
+    </rosparam>
+  </node>
 </launch>
