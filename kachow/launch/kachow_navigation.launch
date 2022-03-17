@@ -1,4 +1,4 @@
-<launch>
+﻿<launch>
 
 <node pkg="tf" type="static_transform_publisher" name="base_link_to_sonar" args="0.12 0 0 0 0 0 base_link ultrasound 30" />
 <node pkg="tf" type="static_transform_publisher" name="imu_broadcaster" args="0.10 0.13 0 0 0 0 base_link imu 30" />
@@ -17,7 +17,6 @@
   <param name="device" type="string" value="/dev/i2c-1" />
   <param name="address" type="int" value="40" />
   <param name="frame_id" type="string" value="imu" />
-  <param name="frequency" type="double" value="30" />
 </node>
 
 <remap from="odom" to="odom_data_quat" />
@@ -35,13 +34,13 @@
   <param name="self_diagnose" value="false" />
 </node>
 
-<node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_mapping.rviz">
+<node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_navigation.rviz">
 </node>
 
 <node pkg="localization_data_pub" type="rviz_click_to_2d" name="rviz_click_to_2d">
 </node>
 
-<arg name="map_file" default="$(find kachow)/maps/test_map.yaml" />
+<arg name="map_file" default="$(find kachow)/maps/floor_plan_test2.yaml" />
 <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
 
 <!--include file="$(find amcl)/examples/amcl_diff.launch"/-->
@@ -49,9 +48,11 @@
 <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
   <rosparam file="$(find navstack_pub)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
   <rosparam file="$(find navstack_pub)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
-  <rosparam file="$(find navstack_pub)/param/local_costmap_params.yaml" command="load" ns="local_costmap" />
-  <rosparam file="$(find navstack_pub)/param/global_costmap_params.yaml" command="load" ns="global_costmap" />
+  <rosparam file="$(find navstack_pub)/param/local_costmap_params.yaml" command="load" />
+  <rosparam file="$(find navstack_pub)/param/global_costmap_params.yaml" command="load" />
   <rosparam file="$(find navstack_pub)/param/base_local_planner_params.yaml" command="load" />
+  <rosparam file="$(find navstack_pub)/param/move_base_params.yaml" command="load" />
+  <rosparam file="$(find navstack_pub)/param/global_planner_params.yaml" command="load" />
 </node>
 
 </launch>

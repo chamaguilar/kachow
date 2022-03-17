@@ -27,7 +27,7 @@
   <param name="self_diagnose" value="false" />
 </node>
 
-<node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_mapping.rviz">
+<node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_testing.rviz">
 </node>
  
 <node pkg="localization_data_pub" type="rviz_click_to_2d" name="rviz_click_to_2d">
