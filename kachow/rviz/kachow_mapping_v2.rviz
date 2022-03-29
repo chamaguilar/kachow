@@ -8,7 +8,7 @@ Panels:
         - /Status1
         - /LaserScan1
         - /Axes1
-        - /Axes1/Status1
+        - /Polygon1
       Splitter Ratio: 0.5
     Tree Height: 561
   - Class: rviz/Selection
@@ -29,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -96,11 +96,20 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/Axes
       Enabled: true
-      Length: 0.20000000298023224
+      Length: 0.10000000149011612
       Name: Axes
       Radius: 0.05000000074505806
       Reference Frame: base_footprint
       Show Trail: true
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 25; 255; 0
+      Enabled: true
+      Name: Polygon
+      Queue Size: 10
+      Topic: /move_base/global_costmap/footprint
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
@@ -130,7 +139,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.0494134426116943
+      Distance: 5.089825630187988
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -146,9 +155,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.1297963857650757
+      Pitch: 1.4097964763641357
       Target Frame: <Fixed Frame>
-      Yaw: 2.427215814590454
+      Yaw: 0.3240293264389038
     Saved: ~
 Window Geometry:
   Displays:
@@ -166,5 +175,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 710
+  X: 700
   Y: 27

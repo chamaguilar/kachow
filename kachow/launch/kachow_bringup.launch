@@ -34,11 +34,14 @@
   <param name="self_diagnose" value="false" />
 </node>
 
+<arg name="model" default="$(find kachow)/urdf/2d_robot.urdf"/>
+<param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
 <node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_mapping.rviz">
 </node>
- 
+
 <node pkg="localization_data_pub" type="rviz_click_to_2d" name="rviz_click_to_2d">
-</node> 
+</node>
 
 <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
   <param name="speed" value="0.25" />

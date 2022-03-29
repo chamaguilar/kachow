@@ -34,16 +34,19 @@
   <param name="self_diagnose" value="false" />
 </node>
 
+<arg name="model" default="$(find kachow)/urdf/2d_robot.urdf"/>
+<param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
 <node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_navigation.rviz">
 </node>
 
 <node pkg="localization_data_pub" type="rviz_click_to_2d" name="rviz_click_to_2d">
 </node>
 
-<arg name="map_file" default="$(find kachow)/maps/floor_plan_test2.yaml" />
+<arg name="map_file" default="$(find kachow)/maps/chamroom.yaml" />
 <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
 
-<!--include file="$(find amcl)/examples/amcl_diff.launch"/-->
+<!--include file="$(find amcl)/examples/amcl_diff.launch" /-->
 
 <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
   <rosparam file="$(find navstack_pub)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />

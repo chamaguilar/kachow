@@ -1,10 +1,29 @@
 <launch>
 
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_sonar" args="0.12 0 0 0 0 0 base_link ultrasound 30" />
+<node pkg="tf" type="static_transform_publisher" name="imu_broadcaster" args="0.10 0.13 0 0 0 0 base_link imu 30" />
+<node pkg="tf" type="static_transform_publisher" name="base_link_broadcaster" args="0 0 0.15 0 0 0 base_footprint base_link 30" />
+<node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 map odom 30" />
+
+<node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
+  <param name="port" value="/dev/ttyUSB0" />
+  <param name="baud" value="115200" />
+</node>
+
+<node pkg="localization_data_pub" type="ekf_odom_pub" name="ekf_odom_pub">
+</node> 
+
+<node ns="imu" name="imu_node" pkg="imu_bno055" type="bno055_i2c_node" respawn="true" respawn_delay="2">
+  <param name="device" type="string" value="/dev/i2c-1" />
+  <param name="address" type="int" value="40" />
+  <param name="frame_id" type="string" value="imu" />
+</node>
+
 <remap from="odom" to="odom_data_quat" />
 <remap from="imu_data" to="imu/data" />
-<node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
+<node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true" output="log">
   <param name="frequency" value="30" />
-  <param name="sensor_timeout" value="0.1" />
+  <param name="sensor_timeout" value="0.5" />
   <param name="two_d_mode" value="true" />
 
   <param name="map_frame" value="map" />
@@ -13,32 +32,26 @@
   <param name="world_frame" value="odom" />
   
   <param name="transform_time_offset" value="0.0" />
-  <param name="predict_to_current_time" value="true" />
 
   <param name="odom0" value="odom_data_quat" />
   <param name="imu0" value="imu/data" /> 
 
-  <rosparam param="odom0_config">[false, false, false,
-                                  false, false, false,
-                                  true, true, false,
+  <rosparam param="odom0_config">[true,  true,  false,
                                   false, false, true,
+                                  false, false, false,
+                                  false, false, false,
                                   false, false, false]</rosparam>
 
   <rosparam param="imu0_config">[false, false, false,
                                  false, false, false,
                                  false, false, false,
                                  false, false, true,
-                                 false, false, false]</rosparam>
+                                 true,  true, false]</rosparam>
 
   <param name="odom0_differential" value="false" />
   <param name="imu0_differential" value="false" />
-  <param name="odom0_relative" value="false"/>
-  <param name="imu0_relative" value="false"/>
-  <param name="imu0_remove_gravitational_acceleration" value="true" />
-  <param name="print_diagnostics" value="false" />
 
-  <param name="odom0_queue_size" value="2"/>
-  <param name="imu0_queue_size" value="10"/>
+  <param name="print_diagnostics" value="false" />
 
   <param name="debug" value="false"/>
   <param name="debug_out_file" value="/home/ubuntu/Desktop/debug_ekf_localization.txt"/>
@@ -77,14 +90,28 @@
 
 </node>
 
-<!--include file="$(find amcl)/examples/amcl_diff.launch"/-->
+<arg name="model" default="$(find kachow)/urdf/2d_robot.urdf"/>
+<param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+<node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_navigation.rviz">
+</node>
+ 
+<node pkg="localization_data_pub" type="rviz_click_to_2d" name="rviz_click_to_2d">
+</node>
+
+<arg name="map_file" default="$(find kachow)/maps/chamroom.yaml" />
+<node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
+
+<!--include file="$(find amcl)/examples/amcl_diff.launch" /-->
 
 <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
   <rosparam file="$(find navstack_pub)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
   <rosparam file="$(find navstack_pub)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
-  <rosparam file="$(find navstack_pub)/param/local_costmap_params.yaml" command="load" ns="local_costmap" />
-  <rosparam file="$(find navstack_pub)/param/global_costmap_params.yaml" command="load" ns="global_costmap" />
+  <rosparam file="$(find navstack_pub)/param/local_costmap_params.yaml" command="load" />
+  <rosparam file="$(find navstack_pub)/param/global_costmap_params.yaml" command="load" />
   <rosparam file="$(find navstack_pub)/param/base_local_planner_params.yaml" command="load" />
+  <rosparam file="$(find navstack_pub)/param/move_base_params.yaml" command="load" />
+  <rosparam file="$(find navstack_pub)/param/global_planner_params.yaml" command="load" />
 </node>
 
 </launch>

@@ -1,0 +1,12 @@
+﻿<launch>
+
+<node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
+  <param name="port" value="/dev/ttyUSB0" />
+  <param name="baud" value="115200" />
+</node>
+
+<node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
+  <param name="speed" value="0.2" />
+</node>
+
+</launch>
