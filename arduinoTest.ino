@@ -46,24 +46,24 @@ float valRanges[3];
 sensor_msgs::LaserScan scan;
 ros::Publisher sonarPub("scan", &scan);
 
-AF_DCMotor tlMotor(1); // top left, M1
-AF_DCMotor trMotor(4); // top right, M4
-AF_DCMotor blMotor(2); // bottom left, M2
-AF_DCMotor brMotor(3); // bottom right, M3
+AF_DCMotor tlMotor(1, MOTOR12_64KHZ); // top left, M1
+AF_DCMotor trMotor(4, MOTOR34_64KHZ); // top right, M4
+AF_DCMotor blMotor(2, MOTOR12_64KHZ); // bottom left, M2
+AF_DCMotor brMotor(3, MOTOR34_64KHZ); // bottom right, M3
 
 const int PWM_INCREMENT = 1;
 const int TICKS_PER_REVOLUTION = 3000;
 const double WHEEL_RADIUS = 0.0575;
-const double WHEEL_BASE = 0.285;
+const double WHEEL_BASE = 0.28;
 const double TICKS_PER_METER = 8000;
 
 const int K_P = 231;
 const int b = 62;
 
 const int DRIFT_MULTIPLIER = 120;
-const int PWM_TURN = 240;
+const int PWM_TURN = 205;
 const int PWM_MIN = 100;
-const int PWM_MAX = 240;
+const int PWM_MAX = 215;
 
 double velLeftWheel = 0;
 double velRightWheel = 0;
@@ -175,8 +175,8 @@ void calc_pwm_values(const geometry_msgs::Twist& cmdVel) {
     prevPrevDiff = prevDiff;
     prevDiff = currDifference;
 
-    pwmLeftReq -= (int)(avgDifference * DRIFT_MULTIPLIER);
-    pwmRightReq += (int)(avgDifference * DRIFT_MULTIPLIER);
+    pwmLeftReq -= (int)(avgDifference); // * DRIFT_MULTIPLIER
+    pwmRightReq += (int)(avgDifference); // * DRIFT_MULTIPLIER
   }
   
   // Handle low PWM values
@@ -185,7 +185,7 @@ void calc_pwm_values(const geometry_msgs::Twist& cmdVel) {
   }
   if (abs(pwmRightReq) < PWM_MIN) {
     pwmRightReq = 0;  
-  }  
+  } 
 }
 
 void set_pwm_values() {
@@ -234,12 +234,12 @@ void set_pwm_values() {
   }
  
   // Increase the required PWM if the robot is not moving
-  if (pwmLeftReq != 0 && velLeftWheel == 0) {
-    pwmLeftReq *= 1.5;
+  /*if (pwmLeftReq != 0 && velLeftWheel == 0) {
+    pwmLeftReq *= 1.2;
   }
   if (pwmRightReq != 0 && velRightWheel == 0) {
-    pwmRightReq *= 1.5;
-  }
+    pwmRightReq *= 1.2;
+  }*/
  
   // Calculate the output PWM value by making slow changes to the current value
   if (abs(pwmLeftReq) > pwmLeftOut) {
@@ -259,8 +259,8 @@ void set_pwm_values() {
   else{}
  
   // Conditional operator to limit PWM output at the maximum 
-  pwmLeftOut = (pwmLeftOut > PWM_MAX) ? PWM_MAX : pwmLeftOut;
-  pwmRightOut = (pwmRightOut > PWM_MAX) ? PWM_MAX : pwmRightOut;
+  /*pwmLeftOut = (pwmLeftOut > PWM_MAX) ? PWM_MAX : pwmLeftOut;
+  pwmRightOut = (pwmRightOut > PWM_MAX) ? PWM_MAX : pwmRightOut;*/
  
   // PWM output cannot be less than 0
   pwmLeftOut = (pwmLeftOut < 0) ? 0 : pwmLeftOut;
@@ -294,12 +294,12 @@ void setup() {
   blMotor.setSpeed(0);
   brMotor.setSpeed(0);
 
-  angleMin = -1.57;
-  angleMax = 1.57;
-  angleIncrement = 3.14 / 3;
+  angleMin = -0.7854;
+  angleMax = 0.7854;
+  angleIncrement = 0.7854;
   timeIncrement = 1 / 6;
   rangeMin = 0.03;
-  rangeMax = 1.0;
+  rangeMax = 0.8;
   scan.ranges_length = 3;
   for (int i=0; i<=2; i++) {
     valRanges[i] = i;
