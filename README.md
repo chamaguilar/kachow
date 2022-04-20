@@ -1,6 +1,6 @@
 # Development of a Low-Cost SLAM-Based Guiding Mobile Robot for Navigation
 
-This study aims to develop an autonomous mobile robot capable of navigating an indoor environment towards a specific destination using sensor fusion.
+This study aims to develop an autonomous mobile robot capable of navigating an indoor environment using EKF sensor fusion.
 
 **List of Equipment:**
 
