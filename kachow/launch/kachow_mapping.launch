@@ -2,10 +2,11 @@
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
     <rosparam>
       base_frame: base_link
+      map_frame: map
       odom_frame: odom
       map_update_interval: 0.3
-      maxUrange: 0.8
-      maxRange: 0.8
+      maxUrange: 0.5
+      maxRange: 0.65
       sigma: 0.05
       kernelSize: 1
       lstep: 0.05
@@ -14,9 +15,9 @@
       lsigma: 0.075
       ogain: 3.0
       lskip: 0
-      minimumScore: 50
-      linearUpdate: 0.05
-      angularUpdate: 0.0436
+      minimumScore: 100
+      linearUpdate: 0.025
+      angularUpdate: 0.01745
       temporalUpdate: -1.0
       resampleThreshold: 0.5
       particles: 30
@@ -29,6 +30,7 @@
       llsamplestep: 0.01
       lasamplerange: 0.005
       lasamplestep: 0.005
+      transform_publish_period: 0.5
     </rosparam>
   </node>
 </launch>

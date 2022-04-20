@@ -43,7 +43,7 @@
 <node pkg="localization_data_pub" type="rviz_click_to_2d" name="rviz_click_to_2d">
 </node>
 
-<arg name="map_file" default="$(find kachow)/maps/chamroom.yaml" />
+<arg name="map_file" default="$(find kachow)/maps/dining_room.yaml" />
 <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
 
 <!--include file="$(find amcl)/examples/amcl_diff.launch" /-->

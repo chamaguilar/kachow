@@ -38,17 +38,18 @@
 
   <rosparam param="odom0_config">[true,  true,  false,
                                   false, false, true,
-                                  false, false, false,
+                                  true, true, false,
                                   false, false, false,
                                   false, false, false]</rosparam>
 
   <rosparam param="imu0_config">[false, false, false,
                                  false, false, false,
-                                 false, false, false,
+                                 true, true, false,
                                  false, false, true,
                                  true,  true, false]</rosparam>
 
   <param name="odom0_differential" value="false" />
+  <param name="imu0_remove_gravitational_acceleration" value="true" />
   <param name="imu0_differential" value="false" />
 
   <param name="print_diagnostics" value="false" />
@@ -99,7 +100,7 @@
 <node pkg="localization_data_pub" type="rviz_click_to_2d" name="rviz_click_to_2d">
 </node>
 
-<arg name="map_file" default="$(find kachow)/maps/chamroom.yaml" />
+<arg name="map_file" default="$(find kachow)/maps/testmap3.yaml" />
 <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
 
 <!--include file="$(find amcl)/examples/amcl_diff.launch" /-->

@@ -2,7 +2,7 @@
 
 <node pkg="tf" type="static_transform_publisher" name="base_link_to_sonar" args="0.12 0 0 0 0 0 base_link ultrasound 30" />
 <node pkg="tf" type="static_transform_publisher" name="imu_broadcaster" args="0.10 0.13 0 0 0 0 base_link imu 30" />
-<!--node pkg="tf" type="static_transform_publisher" name="base_link_broadcaster" args="0 0 0.15 0 0 0 base_footprint base_link 30" /-->
+<node pkg="tf" type="static_transform_publisher" name="base_link_broadcaster" args="0 0 0.15 0 0 0 base_footprint base_link 30" />
 <node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 map odom 30" />
 
 <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
@@ -28,7 +28,7 @@
 
   <param name="map_frame" value="map" />
   <param name="odom_frame" value="odom" />
-  <param name="base_link_frame" value="base_link" />
+  <param name="base_link_frame" value="base_footprint" />
   <param name="world_frame" value="odom" />
   
   <param name="transform_time_offset" value="0.0" />
@@ -38,15 +38,15 @@
 
   <rosparam param="odom0_config">[true,  true,  false,
                                   false, false, true,
-                                  true, true, true,
+                                  true, true, false,
                                   false, false, false,
                                   false, false, false]</rosparam>
 
   <rosparam param="imu0_config">[false, false, false,
                                  false, false, false,
                                  false, false, false,
-                                 false, false, true,
-                                 true,  true, false]</rosparam>
+                                 true, true, true,
+                                 true,  true, true]</rosparam>
 
   <param name="odom0_differential" value="false" />
   <param name="imu0_remove_gravitational_acceleration" value="true" />
@@ -73,7 +73,7 @@
                                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0,
                                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.015]</rosparam>
 
-  <!--rosparam param="initial_estimate_covariance">[1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+  <rosparam param="initial_estimate_covariance">[1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
                                                  0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
                                                  0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
                                                  0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
@@ -87,10 +87,9 @@
                                                  0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     1e-9,  0,    0,    0,
                                                  0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     1e-9, 0,    0,
                                                  0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1e-9, 0,
-                                                 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]</rosparam-->
+                                                 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]</rosparam>
 
 </node>
-
 
 <arg name="model" default="$(find kachow)/urdf/2d_robot.urdf"/>
 <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
@@ -102,7 +101,40 @@
 </node>
 
 <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
-  <param name="speed" value="0.225" />
+  <param name="speed" value="0.25" />
+</node>
+
+<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+  <rosparam>
+    base_frame: base_link
+    odom_frame: odom
+    map_update_interval: 0.3
+    maxUrange: 0.45
+    maxRange: 0.5
+    sigma: 0.05
+    kernelSize: 1
+    lstep: 0.05
+    step: 0.05
+    iterations: 5
+    lsigma: 0.075
+    ogain: 3.0
+    lskip: 0
+    minimumScore: 50
+    linearUpdate: 0.05
+    angularUpdate: 0.0436
+    temporalUpdate: -1.0
+    resampleThreshold: 0.5 
+    particles: 30 
+    xmin: -0.1
+    ymin: -0.1
+    xmax: 0.1
+    ymax: 0.1
+    delta: 0.05
+    llsamplerange: 0.01
+    llsamplestep: 0.01
+    lasamplerange: 0.005
+    lasamplestep: 0.005
+  </rosparam>
 </node>
 
 </launch>

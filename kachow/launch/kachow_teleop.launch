@@ -6,7 +6,7 @@
 </node>
 
 <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
-  <param name="speed" value="0.2" />
+  <param name="speed" value="0.225" />
 </node>
 
 </launch>

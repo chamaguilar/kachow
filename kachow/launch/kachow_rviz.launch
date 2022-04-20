@@ -1,0 +1,9 @@
+<launch>
+
+<node pkg="rviz" type="rviz" name="rviz" args="-d /home/ubuntu/catkin_ws/src/kachow/rviz/kachow_navigation.rviz">
+</node>
+
+<arg name="map_file" default="$(find kachow)/maps/dining_room.yaml" />
+<node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
+
+</launch>

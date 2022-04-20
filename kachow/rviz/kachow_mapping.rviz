@@ -30,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -116,7 +116,7 @@ Visualization Manager:
       Length: 0.15000000596046448
       Name: Axes
       Radius: 0.10000000149011612
-      Reference Frame: base_footprint
+      Reference Frame: base_link
       Show Trail: true
       Value: true
   Enabled: true
@@ -183,5 +183,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 705
+  X: 700
   Y: 27
