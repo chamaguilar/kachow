@@ -1,6 +1,6 @@
 # Development of a Low-Cost SLAM-Based Guiding Mobile Robot for Navigation
 
-This study aims to develop an autonomous mobile robot capable of navigating an indoor environment using EKF sensor fusion.
+This thesis aims to develop an autonomous mobile robot capable of navigating a static indoor environment towards a specific destination using sensor fusion.
 
 **List of Equipment:**
 
@@ -16,16 +16,16 @@ This study aims to develop an autonomous mobile robot capable of navigating an i
 
 **Hardware Architecture**
 
-![hardware.png] (https://github.com/chamaguilar/kachow/blob/main/imagefiles/hardware.png)
+<img src="https://github.com/chamaguilar/kachow/blob/main/imagefiles/hardware.png"/>
 
 **Software Architecture**
 
 _For SLAM_
-![software_map.png] (https://github.com/chamaguilar/kachow/blob/main/imagefiles/software_map.png)
+<img src="https://github.com/chamaguilar/kachow/blob/main/imagefiles/software_map.png"/>
 
 _For Navigation and Path Planning_
-![software_nav.png] (https://github.com/chamaguilar/kachow/blob/main/imagefiles/software_nav.png)
+<img src="https://github.com/chamaguilar/kachow/blob/main/imagefiles/software_nav.png"/>
 
 ---
 For any questions, feel free to contact any of us via email: 
-charmaine_aguilar@dlsu.edu.ph <br> kiana_dacanay@dlsu.edu.ph <br> jepril_vargas@dlsu.edu.ph <br> janel_yao@dlsu.edu.ph
+<br> charmaine_aguilar@dlsu.edu.ph <br> kiana_dacanay@dlsu.edu.ph <br> jepril_vargas@dlsu.edu.ph <br> janel_yao@dlsu.edu.ph
